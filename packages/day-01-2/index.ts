@@ -7,14 +7,16 @@ const digits = {
   six: '6',
   seven: '7',
   eight: '8',
-  nine: '9'
+  nine: '9',
 }
 
 export function calibrateValue(v: string): number {
   const values: string[] = v.split('')
-  let firstDigitIndex = values.findIndex(v => Number.isInteger(parseInt(v)))
+  let firstDigitIndex = values.findIndex((v) => Number.isInteger(parseInt(v)))
   let firstDigit = values[firstDigitIndex]
-  let lastDigitIndex = values.findLastIndex(v => Number.isInteger(parseInt(v)))
+  let lastDigitIndex = values.findLastIndex((v) =>
+    Number.isInteger(parseInt(v)),
+  )
   let lastDigit = values[lastDigitIndex]
 
   if (firstDigitIndex === -1) firstDigitIndex = Infinity

@@ -19,15 +19,17 @@ test('answer should be 142', () => {
     'xtwone3four',
     '4nineeightseven2',
     'zoneight234',
-    '7pqrstsixteen'
+    '7pqrstsixteen',
   ]
-  
+
   expect(sum(testData.map(calibrateValue))).toBe(281)
 })
 
 test('final answer should be ?', async () => {
-  const inputFile = await Bun.file(`${import.meta.dir}/../day-01/input.txt`).text()
-  const testData = inputFile.split('\n').filter(s => s.length > 0)
+  const inputFile = await Bun.file(
+    `${import.meta.dir}/../day-01/input.txt`,
+  ).text()
+  const testData = inputFile.split('\n').filter((s) => s.length > 0)
 
   expect(sum(testData.map(calibrateValue))).toBe(54530)
 })
