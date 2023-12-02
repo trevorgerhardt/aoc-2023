@@ -1,6 +1,9 @@
 {
   "name": "aoc-2023",
   "private": true,
+  "scripts": {
+    "fmt": "bunx @biomejs/biome check --apply packages/**/*.ts"
+  },
   "workspaces": [
     "packages/*"
   ]
