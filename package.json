@@ -2,9 +2,15 @@
   "name": "aoc-2023",
   "private": true,
   "scripts": {
-    "fmt": "bunx @biomejs/biome check --apply packages/**/*.ts"
+    "fmt": "bunx prettier . --write",
+    "lint": "bunx @biomejs/biome lint --apply-unsafe ./",
+    "sort": "bunx @biomejs/biome check --apply ./"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
 }
