@@ -1,0 +1,7 @@
+{
+  "name": "aoc-2023",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
