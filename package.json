@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "fmt": "bunx prettier . --write",
-    "lint": "bunx @biomejs/biome check --apply-unsafe ./"
+    "lint": "bunx @biomejs/biome check --apply-unsafe ./",
+    "precommit": "bun run fmt && bun run lint",
+    "postinstall": "cp hooks/* .git/hooks/"
   },
   "workspaces": [
     "packages/*"
