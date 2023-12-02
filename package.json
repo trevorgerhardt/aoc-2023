@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
     "fmt": "bunx prettier . --write",
-    "lint": "bunx @biomejs/biome lint --apply-unsafe ./",
-    "sort": "bunx @biomejs/biome check --apply ./"
+    "lint": "bunx @biomejs/biome check --apply-unsafe ./"
   },
   "workspaces": [
     "packages/*"

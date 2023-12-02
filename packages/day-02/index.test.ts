@@ -1,4 +1,4 @@
-import { test, expect } from 'bun:test'
+import { expect, test } from 'bun:test'
 
 type Color = 'r' | 'g' | 'b'
 type Set = Record<Color, number>
@@ -8,16 +8,16 @@ type Game = {
 }
 
 async function parseInput (path: string) {
-  let text = await Bun.file(path).text()
-  let games: Game[] = []
-  for (let game of text.split('\n')) {
-    let [gameIdString, setsString] = game.split(':')
-    let id = +gameIdString.slice('Game '.length)
-    let sets: Set[] = []
-    for (let setStr of setsString.split(';')) {
-      let set: Set = {r: 0, g: 0, b: 0}
-      for (let colorStr of setStr.split(',')) {
-        let [count, color] = colorStr.trim().split(' ')
+  const text = await Bun.file(path).text()
+  const games: Game[] = []
+  for (const game of text.split('\n')) {
+    const [gameIdString, setsString] = game.split(':')
+    const id = +gameIdString.slice('Game '.length)
+    const sets: Set[] = []
+    for (const setStr of setsString.split(';')) {
+      const set: Set = {r: 0, g: 0, b: 0}
+      for (const colorStr of setStr.split(',')) {
+        const [count, color] = colorStr.trim().split(' ')
         set[color.slice(0, 1) as Color] = +count
       }
       sets.push(set)
@@ -28,14 +28,16 @@ async function parseInput (path: string) {
 }
 
 function isValidGame (game: Game, bag: Set) {
-  for (let set of game.sets)
+  for (const set of game.sets)
     if (set.r > bag.r || set.g > bag.g || set.b > bag.b) return false
   return true
 }
 
 function findMinSet (game: Game) {
-  let r = 0, g = 0, b = 0
-  for (let set of game.sets) {
+  let r = 0
+  let g = 0
+  let b = 0
+  for (const set of game.sets) {
     r = Math.max(r, set.r)
     g = Math.max(g, set.g)
     b = Math.max(b, set.b)
@@ -43,14 +45,14 @@ function findMinSet (game: Game) {
   return {r, g, b}
 }
 
-let sumGames = (n: Game[]) => n.reduce((p, c) => p + c.id, 0)
-let sumMinSetPower = (s: Set[]) => s.reduce((p, c) => p + (c.r * c.g * c.b), 0)
+const sumGames = (n: Game[]) => n.reduce((p, c) => p + c.id, 0)
+const sumMinSetPower = (s: Set[]) => s.reduce((p, c) => p + (c.r * c.g * c.b), 0)
 
-let exampleGames = await parseInput(import.meta.dir + '/example.txt')
-let exampleBag: Set = {r: 12, g: 13, b: 14}
+const exampleGames = await parseInput(`${import.meta.dir}/example.txt`)
+const exampleBag: Set = {r: 12, g: 13, b: 14}
 
-let input = await parseInput(import.meta.dir + '/input.txt')
-let inputBag: Set = {r: 12, g: 13, b: 14}
+const input = await parseInput(`${import.meta.dir}/input.txt`)
+const inputBag: Set = {r: 12, g: 13, b: 14}
 
 test('first example should match', () => {
   expect(exampleGames[0].id).toBe(1)
@@ -70,7 +72,7 @@ test('example games sum', () => {
 })
 
 test('example min sum power', () => {
-  let minSet1 = findMinSet(exampleGames[0])
+  const minSet1 = findMinSet(exampleGames[0])
   expect(minSet1).toEqual({r: 4, g: 2, b: 6})
   expect(sumMinSetPower([minSet1])).toBe(48)
   expect(sumMinSetPower(exampleGames.map(findMinSet))).toBe(2286)

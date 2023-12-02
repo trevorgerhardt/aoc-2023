@@ -1,4 +1,4 @@
-import { test, expect } from 'bun:test'
+import { expect, test } from 'bun:test'
 import { calibrateValue } from './index'
 
 test('value should be 29', () => {
@@ -26,7 +26,7 @@ test('answer should be 142', () => {
 })
 
 test('final answer should be ?', async () => {
-  const inputFile = await Bun.file(import.meta.dir + '/../day-01/input.txt').text()
+  const inputFile = await Bun.file(`${import.meta.dir}/../day-01/input.txt`).text()
   const testData = inputFile.split('\n').filter(s => s.length > 0)
 
   expect(sum(testData.map(calibrateValue))).toBe(54530)
