@@ -46,10 +46,10 @@ function findMinSet (game: Game) {
 let sumGames = (n: Game[]) => n.reduce((p, c) => p + c.id, 0)
 let sumMinSetPower = (s: Set[]) => s.reduce((p, c) => p + (c.r * c.g * c.b), 0)
 
-let exampleGames = await parseInput('./example.txt')
+let exampleGames = await parseInput(import.meta.dir + '/example.txt')
 let exampleBag: Set = {r: 12, g: 13, b: 14}
 
-let input = await parseInput('./input.txt')
+let input = await parseInput(import.meta.dir + '/input.txt')
 let inputBag: Set = {r: 12, g: 13, b: 14}
 
 test('first example should match', () => {
