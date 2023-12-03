@@ -27,7 +27,7 @@ test('answer should be 142', () => {
 
 test('final answer should be ?', async () => {
   const inputFile = await Bun.file(
-    `${import.meta.dir}/../day-01/input.txt`,
+    `${import.meta.dir}/../../data/01-input.txt`,
   ).text()
   const testData = inputFile.split('\n').filter((s) => s.length > 0)
 

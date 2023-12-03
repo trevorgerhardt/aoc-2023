@@ -48,10 +48,10 @@ function findMinSet(game: Game) {
 const sumGames = (n: Game[]) => n.reduce((p, c) => p + c.id, 0)
 const sumMinSetPower = (s: Set[]) => s.reduce((p, c) => p + c.r * c.g * c.b, 0)
 
-const exampleGames = await parseInput(`${import.meta.dir}/example.txt`)
+const exampleGames = await parseInput(`${import.meta.dir}/../../data/02-test.txt`)
 const exampleBag: Set = { r: 12, g: 13, b: 14 }
 
-const input = await parseInput(`${import.meta.dir}/input.txt`)
+const input = await parseInput(`${import.meta.dir}/../../data/02-input.txt`)
 const inputBag: Set = { r: 12, g: 13, b: 14 }
 
 test('first example should match', () => {
