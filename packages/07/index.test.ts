@@ -88,7 +88,7 @@ function parseFile (file: string): Hand[] {
 }
 
 function totalWinnings(hands: Hand[]) {
-  const handsSorted = hands.toSorted((hand1, hand2) => {
+  return hands.toSorted((hand1, hand2) => {
     if (hand1.rank < hand2.rank) return -1
     if (hand1.rank > hand2.rank) return 1
     for (let i = 0; i < hand1.cards.length; i++) {
@@ -96,9 +96,7 @@ function totalWinnings(hands: Hand[]) {
       if (cardRank[hand1.cards[i]] > cardRank[hand2.cards[i]]) return 1
     }
     return 0
-  })
-
-  return handsSorted.reduce((tw, hand, rank) => tw + hand.bid * (rank + 1), 0)
+  }).reduce((tw, hand, rank) => tw + hand.bid * (rank + 1), 0)
 }
 
 describe('test', async () => {
