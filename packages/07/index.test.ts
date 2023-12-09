@@ -1,4 +1,4 @@
-import {describe, expect,test } from 'bun:test'
+import { describe, expect, test } from 'bun:test'
 import { getInput } from '../utils'
 
 const cardRank: Record<string, number> = {
@@ -10,20 +10,22 @@ const cardRank: Record<string, number> = {
   '7': 5,
   '8': 6,
   '9': 7,
-  'T': 8,
-  'J': -1,
-  'Q': 10,
-  'K': 11,
-  'A': 12 
+  T: 8,
+  J: -1,
+  Q: 10,
+  K: 11,
+  A: 12,
 }
 
 function getHandRank(cards: string[]) {
   const ct: Record<string, number> = {}
   for (const c of cards) ct[c] = (ct[c] ?? 0) + 1
   const cc = Object.entries(ct).toSorted((a, b) => b[1] - a[1])
-  if (ct['J'] == null) { // No jokers
+  if (ct['J'] == null) {
+    // No jokers
     switch (cc[0][1]) {
-      case 5: return 6
+      case 5:
+        return 6
       case 4: {
         return 5
       }
@@ -40,8 +42,10 @@ function getHandRank(cards: string[]) {
     }
   } else {
     switch (cc[0][1]) {
-      case 5: return 6
-      case 4: return 6
+      case 5:
+        return 6
+      case 4:
+        return 6
       case 3: {
         if (ct['J'] === 3) {
           return 4 + cc[1][1]
@@ -76,33 +80,37 @@ type Hand = {
   rank: number
 }
 
-function parseFile (file: string): Hand[] {
+function parseFile(file: string): Hand[] {
   return file.split('\n').map((line) => {
     const [type, bid] = line.split(' ')
     const cards = type.split('')
     return {
       bid: +bid,
       cards,
-      rank: getHandRank(cards) 
+      rank: getHandRank(cards),
     }
   })
 }
 
 function totalWinnings(hands: Hand[]) {
-  return hands.toSorted((hand1, hand2) => {
-    if (hand1.rank < hand2.rank) return -1
-    if (hand1.rank > hand2.rank) return 1
-    for (let i = 0; i < hand1.cards.length; i++) {
-      if (cardRank[hand1.cards[i]] < cardRank[hand2.cards[i]]) return -1
-      if (cardRank[hand1.cards[i]] > cardRank[hand2.cards[i]]) return 1
-    }
-    return 0
-  }).reduce((tw, hand, rank) => tw + hand.bid * (rank + 1), 0)
+  return hands
+    .toSorted((hand1, hand2) => {
+      if (hand1.rank < hand2.rank) return -1
+      if (hand1.rank > hand2.rank) return 1
+      for (let i = 0; i < hand1.cards.length; i++) {
+        if (cardRank[hand1.cards[i]] < cardRank[hand2.cards[i]]) return -1
+        if (cardRank[hand1.cards[i]] > cardRank[hand2.cards[i]]) return 1
+      }
+      return 0
+    })
+    .reduce((tw, hand, rank) => tw + hand.bid * (rank + 1), 0)
 }
 
 describe('2023-07', () => {
   describe('test', async () => {
-    const testFile = await Bun.file(`${import.meta.dir}/../../data/07-test.txt`).text()
+    const testFile = await Bun.file(
+      `${import.meta.dir}/../../data/07-test.txt`,
+    ).text()
     const hands = parseFile(testFile)
     test('pt 1 should be', () => {
       expect(totalWinnings(hands)).toBe(5905)

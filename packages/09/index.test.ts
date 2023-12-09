@@ -1,4 +1,4 @@
-import {describe, expect,test } from 'bun:test'
+import { describe, expect, test } from 'bun:test'
 import { getInput, nums } from '../utils'
 
 const exampleInput = `
@@ -7,8 +7,8 @@ const exampleInput = `
 10 13 16 21 30 45
 `.trim()
 
-function parseInput (input: string) {
-  return input.split('\n').map(l => nums(l))
+function parseInput(input: string) {
+  return input.split('\n').map((l) => nums(l))
 }
 
 function diff(seq: number[]) {
@@ -19,13 +19,13 @@ function diff(seq: number[]) {
   return diffSeq
 }
 
-function predictNextValue (seq: number[]): number {
-  if (seq.every(v => v === 0)) return 0
+function predictNextValue(seq: number[]): number {
+  if (seq.every((v) => v === 0)) return 0
   return seq[seq.length - 1] + predictNextValue(diff(seq))
 }
 
-function predictPrevValue (seq: number[]): number {
-  if (seq.every(v => v === 0)) return 0
+function predictPrevValue(seq: number[]): number {
+  if (seq.every((v) => v === 0)) return 0
   return seq[0] - predictPrevValue(diff(seq))
 }
 
@@ -50,7 +50,13 @@ describe('2023-09', () => {
     })
 
     test('check input', () => {
-      expect(predictNextValue(nums(`-6 -7 -8 -9 -10 -11 -12 -13 -14 -15 -16 -17 -18 -19 -20 -21 -22 -23 -24 -25 -26`))).toBe(-27)
+      expect(
+        predictNextValue(
+          nums(
+            `-6 -7 -8 -9 -10 -11 -12 -13 -14 -15 -16 -17 -18 -19 -20 -21 -22 -23 -24 -25 -26`,
+          ),
+        ),
+      ).toBe(-27)
     })
   })
 

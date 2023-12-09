@@ -1,26 +1,26 @@
-import {describe, expect,test } from 'bun:test'
+import { describe, expect, test } from 'bun:test'
 import { getInput } from '../utils'
 
-function parseFile (file: string) {
+function parseFile(file: string) {
   const [seedLine, ...mapSections] = file.split('\n\n')
-  const seeds = Array.from(seedLine.match(/\d+/g)!).map(s => +s)
+  const seeds = Array.from(seedLine.match(/\d+/g)!).map((s) => +s)
 
-  const maps = mapSections.map(section => {
+  const maps = mapSections.map((section) => {
     const map: number[] = []
     const [, ...lines] = section.split('\n')
     for (const line of lines) {
-      const [drs, srs, rl] = Array.from(line.match(/\d+/g)!).map(s => +s)
+      const [drs, srs, rl] = Array.from(line.match(/\d+/g)!).map((s) => +s)
       for (let i = srs; i < srs + rl; i++) {
         map[i] = drs + (i - srs)
       }
-    } 
+    }
     return map
   })
 
   return [seeds, maps] as const
 }
 
-function closestLocation (seeds: number[], maps: number[][]) {
+function closestLocation(seeds: number[], maps: number[][]) {
   let closest = Infinity
   for (const seed of seeds) {
     let id = seed
@@ -32,7 +32,7 @@ function closestLocation (seeds: number[], maps: number[][]) {
   return closest
 }
 
-function closestLocationRanges (seeds: number[], maps: number[][]) {
+function closestLocationRanges(seeds: number[], maps: number[][]) {
   let closest = Infinity
   for (let i = 0; i < seeds.length - 1; i += 2) {
     for (let seed = seeds[i]; seed < seeds[i] + seeds[i + 1]; seed++) {
@@ -49,7 +49,9 @@ function closestLocationRanges (seeds: number[], maps: number[][]) {
 
 describe('2023-05', () => {
   describe('test', async () => {
-    const testFile = await Bun.file(`${import.meta.dir}/../../data/05-test.txt`).text()
+    const testFile = await Bun.file(
+      `${import.meta.dir}/../../data/05-test.txt`,
+    ).text()
     const [seeds, maps] = parseFile(testFile)
     test('pt 1 should be', () => {
       expect(maps.length).toEqual(7)

@@ -1,4 +1,4 @@
-import {describe, expect, test} from 'bun:test'
+import { describe, expect, test } from 'bun:test'
 import { getInput } from '../utils'
 
 type Coord = [number, number]
@@ -8,7 +8,7 @@ type NumPos = {
   coords: Coord[]
 }
 
-function isAdjacentToSymbol (coord: Coord, symbols: boolean[][]) {
+function isAdjacentToSymbol(coord: Coord, symbols: boolean[][]) {
   for (let y = coord[1] - 1; y <= coord[1] + 1; y++) {
     if (y < 0 || y >= symbols.length) continue
     for (let x = coord[0] - 1; x <= coord[0] + 1; x++) {
@@ -19,13 +19,17 @@ function isAdjacentToSymbol (coord: Coord, symbols: boolean[][]) {
   return false
 }
 
-const isAdjacent = (n1: number, n2: number) => n1 === n2 || n1 === n2 - 1 || n1 === n2 + 1
+const isAdjacent = (n1: number, n2: number) =>
+  n1 === n2 || n1 === n2 - 1 || n1 === n2 + 1
 
-function getAdjacentPartNumbers (coord: Coord, partNums: NumPos[]) {
+function getAdjacentPartNumbers(coord: Coord, partNums: NumPos[]) {
   const adjacent: NumPos[] = []
   for (const partNum of partNums) {
     for (const partCoord of partNum.coords) {
-      if (isAdjacent(partCoord[0], coord[0]) && isAdjacent(partCoord[1], coord[1])) {
+      if (
+        isAdjacent(partCoord[0], coord[0]) &&
+        isAdjacent(partCoord[1], coord[1])
+      ) {
         adjacent.push(partNum)
         break
       }
@@ -52,7 +56,7 @@ function sumOfParts(input: string) {
           numberPos = {
             total: 0,
             digits: [c],
-            coords: [[x, y]]
+            coords: [[x, y]],
           }
         } else {
           numberPos.digits.push(c)
@@ -76,7 +80,7 @@ function sumOfParts(input: string) {
         }
       }
     }
-    
+
     if (numberPos != null) {
       numberPos.total = +numberPos.digits.join('')
       numberPositions.push(numberPos)
@@ -87,7 +91,7 @@ function sumOfParts(input: string) {
   }
 
   for (const numberPos of numberPositions) {
-    if (numberPos.coords.find(c => isAdjacentToSymbol(c, symbolIndexes))) {
+    if (numberPos.coords.find((c) => isAdjacentToSymbol(c, symbolIndexes))) {
       sum += numberPos.total
     }
   }
@@ -96,15 +100,17 @@ function sumOfParts(input: string) {
   for (const gear of gearIndexes) {
     const adjacentPartNumbers = getAdjacentPartNumbers(gear, numberPositions)
     if (adjacentPartNumbers.length === 2) {
-      ratio += adjacentPartNumbers[0].total * adjacentPartNumbers[1].total 
+      ratio += adjacentPartNumbers[0].total * adjacentPartNumbers[1].total
     }
   }
-  return {sum, ratio}
+  return { sum, ratio }
 }
 
 describe('2023-03', () => {
   describe('test', async () => {
-    const testFile = await Bun.file(`${import.meta.dir}/../../data/03-test.txt`).text()
+    const testFile = await Bun.file(
+      `${import.meta.dir}/../../data/03-test.txt`,
+    ).text()
     const results = sumOfParts(testFile)
     test('sum of parts', () => {
       expect(results.sum).toBe(4361)
