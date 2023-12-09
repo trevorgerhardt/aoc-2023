@@ -1,5 +1,5 @@
 {
-  "name": "day-02",
+  "name": "02",
   "type": "module",
   "devDependencies": {
     "bun-types": "latest"
