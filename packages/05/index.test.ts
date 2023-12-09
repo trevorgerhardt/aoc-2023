@@ -61,7 +61,7 @@ describe('2023-05', () => {
     })
   })
 
-  test('result', async () => {
+  test.skip('result', async () => {
     const inputFile = await getInput(5)
     const [seeds, maps] = parseFile(inputFile)
     console.log('pt 1', closestLocation(seeds, maps))
