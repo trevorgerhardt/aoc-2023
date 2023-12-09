@@ -1,4 +1,5 @@
 import {describe, expect,test } from 'bun:test'
+import { getInput } from '../utils'
 
 type Card = {
   matches: number
@@ -42,7 +43,7 @@ describe('2023-04', async () => {
     })
   })
 
-  const inputFile = await Bun.file(`${import.meta.dir}/../../data/04-input.txt`).text()
+  const inputFile = await getInput(4)
   const cards = getCards(inputFile)
   console.log('pt 1', sumCards(cards))
   console.log('pt 2', processCards(cards))

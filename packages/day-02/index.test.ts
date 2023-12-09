@@ -1,4 +1,12 @@
 import { describe, expect, test } from 'bun:test'
+import { getInput } from '../utils'
+
+const exampleInput = `
+Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green`.trim()
 
 type Color = 'r' | 'g' | 'b'
 type Set = Record<Color, number>
@@ -7,8 +15,7 @@ type Game = {
   sets: Set[]
 }
 
-async function parseInput(path: string) {
-  const text = await Bun.file(path).text()
+async function parseInput(text: string) {
   const games: Game[] = []
   for (const game of text.split('\n')) {
     const [gameIdString, setsString] = game.split(':')
@@ -48,10 +55,11 @@ function findMinSet(game: Game) {
 const sumGames = (n: Game[]) => n.reduce((p, c) => p + c.id, 0)
 const sumMinSetPower = (s: Set[]) => s.reduce((p, c) => p + c.r * c.g * c.b, 0)
 
-const exampleGames = await parseInput(`${import.meta.dir}/../../data/02-test.txt`)
+const exampleGames = await parseInput(exampleInput)
 const exampleBag: Set = { r: 12, g: 13, b: 14 }
 
-const input = await parseInput(`${import.meta.dir}/../../data/02-input.txt`)
+const inputText = await getInput(2)
+const input = await parseInput(inputText)
 const inputBag: Set = { r: 12, g: 13, b: 14 }
 
 describe('2023-02', () => {

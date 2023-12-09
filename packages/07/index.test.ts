@@ -1,4 +1,5 @@
 import {describe, expect,test } from 'bun:test'
+import { getInput } from '../utils'
 
 const cardRank: Record<string, number> = {
   '2': 0,
@@ -109,7 +110,7 @@ describe('2023-07', () => {
   })
 
   test('result', async () => {
-    const inputFile = await Bun.file(`${import.meta.dir}/../../data/07-input.txt`).text()
+    const inputFile = await getInput(7)
     const hands = parseFile(inputFile)
     console.log('total winnings', totalWinnings(hands))
     expect(Bun).toBeDefined()

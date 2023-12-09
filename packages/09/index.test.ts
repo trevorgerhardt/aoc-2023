@@ -55,7 +55,6 @@ describe('2023-09', () => {
   })
 
   test('result', async () => {
-    expect(process.env.COOKIE).toBeDefined()
     const inputFile = await getInput(9)
     const parsedInput = parseInput(inputFile)
     console.log('result:', calcResults1(parsedInput))

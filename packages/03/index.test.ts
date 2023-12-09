@@ -1,4 +1,5 @@
 import {describe, expect, test} from 'bun:test'
+import { getInput } from '../utils'
 
 type Coord = [number, number]
 type NumPos = {
@@ -115,7 +116,7 @@ describe('2023-03', () => {
   })
 
   describe('result', async () => {
-    const inputFile = await Bun.file(`${import.meta.dir}/../../data/03-input.txt`).text()
+    const inputFile = await getInput(3)
     const results = sumOfParts(inputFile)
     test('sum of parts', () => {
       expect(results.sum).toEqual(536202)

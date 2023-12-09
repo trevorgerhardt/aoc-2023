@@ -1,4 +1,5 @@
 import {describe, expect,test } from 'bun:test'
+import { getInput } from '../utils'
 
 function parseFile (file: string) {
   const [seedLine, ...mapSections] = file.split('\n\n')
@@ -60,8 +61,8 @@ describe('2023-05', () => {
     })
   })
 
-  test.skip('result', async () => {
-    const inputFile = await Bun.file(`${import.meta.dir}/../../data/05-input.txt`).text()
+  test('result', async () => {
+    const inputFile = await getInput(5)
     const [seeds, maps] = parseFile(inputFile)
     console.log('pt 1', closestLocation(seeds, maps))
     console.log('pt 2', closestLocationRanges(seeds, maps))

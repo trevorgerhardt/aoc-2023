@@ -1,4 +1,5 @@
 import {describe, expect,test } from 'bun:test'
+import { getInput } from '../utils'
 
 type Seq = ('L' | 'R')[]
 type Node = {L: string, R: string}
@@ -51,7 +52,7 @@ describe('2023-08', () => {
   })
 
   test('result', async () => {
-    const inputFile = await Bun.file(`${import.meta.dir}/../../data/08-input.txt`).text()
+    const inputFile = await getInput(8)
     const hands = parseFile(inputFile)
     console.log('total steps', calcResults(hands))
     expect(Bun).toBeDefined()

@@ -1,4 +1,5 @@
 import {describe, expect,test } from 'bun:test'
+import { getInput } from '../utils'
 
 function parseFile (file: string) {
   const [timeLine, distanceLine] = file.split('\n')
@@ -39,7 +40,7 @@ describe('2023-06', () => {
   })
 
   test('result', async () => {
-    const inputFile = await Bun.file(`${import.meta.dir}/../../data/06-input.txt`).text()
+    const inputFile = await getInput(6)
     const [ts, ds] = parseFile(inputFile)
     console.log('pt 1', chancesToBeat(ts, ds))
     console.log('pt 2', chancesToBeat(
