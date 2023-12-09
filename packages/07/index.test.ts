@@ -21,7 +21,7 @@ function getHandRank(cards: string[]) {
   const ct: Record<string, number> = {}
   for (const c of cards) ct[c] = (ct[c] ?? 0) + 1
   const cc = Object.entries(ct).toSorted((a, b) => b[1] - a[1])
-  if (ct['J'] == null) {
+  if (ct.J == null) {
     // No jokers
     switch (cc[0][1]) {
       case 5:
@@ -40,37 +40,32 @@ function getHandRank(cards: string[]) {
       default:
         return 0
     }
-  } else {
-    switch (cc[0][1]) {
-      case 5:
-        return 6
-      case 4:
-        return 6
-      case 3: {
-        if (ct['J'] === 3) {
-          return 4 + cc[1][1]
-        } else {
-          return 4 + ct['J']
-        }
-      }
-      case 2: {
-        if (ct['J'] === 2) {
-          if (cc[1][1] === 2) {
-            return 5 // 4 of a kind
-          } else {
-            return 3
-          }
-        } else {
-          if (cc[1][1] === 2) {
-            return 4 // full-house
-          } else {
-            return 3
-          }
-        }
-      }
-      default:
-        return 1
+  } 
+  switch (cc[0][1]) {
+    case 5:
+      return 6
+    case 4:
+      return 6
+    case 3: {
+      if (ct.J === 3) {
+        return 4 + cc[1][1]
+      } 
+      return 4 + ct.J
     }
+    case 2: {
+      if (ct.J === 2) {
+        if (cc[1][1] === 2) {
+          return 5 // 4 of a kind
+        } 
+        return 3
+      } 
+      if (cc[1][1] === 2) {
+        return 4 // full-house
+      }
+      return 3
+    }
+    default:
+      return 1
   }
 }
 

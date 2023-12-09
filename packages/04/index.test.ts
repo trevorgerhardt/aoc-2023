@@ -16,7 +16,7 @@ function getCards(file: string) {
         .split('|')
         .map((s) => Array.from(s.match(/\d+/g)!))
       const matches = ours.filter((o) => winners.includes(o)).length
-      const points = matches === 0 ? 0 : 1 * Math.pow(2, matches - 1)
+      const points = matches === 0 ? 0 : 2 ** (matches - 1)
       return { matches, points }
     })
 }

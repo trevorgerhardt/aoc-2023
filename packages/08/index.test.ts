@@ -8,11 +8,11 @@ type Nodes = Record<string, Node>
 function parseFile(file: string) {
   const [sequenceLine, ...rest] = file.split('\n')
   const nodes: Nodes = {}
-  rest.slice(1).forEach((row) => {
+  for (const row of rest.slice(1)) {
     const [label, sides] = row.split(' = ')
     const [L, R] = sides.slice(1, -1).split(', ')
     nodes[label] = { R, L }
-  })
+  }
 
   return [sequenceLine.split('') as Seq, nodes] as const
 }
