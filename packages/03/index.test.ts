@@ -101,26 +101,28 @@ function sumOfParts(input: string) {
   return {sum, ratio}
 }
 
-describe('test', async () => {
-  const testFile = await Bun.file(`${import.meta.dir}/../../data/03-test.txt`).text()
-  const results = sumOfParts(testFile)
-  test('sum of parts', () => {
-    expect(results.sum).toBe(4361)
+describe('2023-03', () => {
+  describe('test', async () => {
+    const testFile = await Bun.file(`${import.meta.dir}/../../data/03-test.txt`).text()
+    const results = sumOfParts(testFile)
+    test('sum of parts', () => {
+      expect(results.sum).toBe(4361)
+    })
+
+    test('gear ratio', () => {
+      expect(results.ratio).toBe(467835)
+    })
   })
 
-  test('gear ratio', () => {
-    expect(results.ratio).toBe(467835)
-  })
-})
+  describe('result', async () => {
+    const inputFile = await Bun.file(`${import.meta.dir}/../../data/03-input.txt`).text()
+    const results = sumOfParts(inputFile)
+    test('sum of parts', () => {
+      expect(results.sum).toEqual(536202)
+    })
 
-describe('result', async () => {
-  const inputFile = await Bun.file(`${import.meta.dir}/../../data/03-input.txt`).text()
-  const results = sumOfParts(inputFile)
-  test('sum of parts', () => {
-    expect(results.sum).toEqual(536202)
-  })
-
-  test('gear ratio', () => {
-    expect(results.ratio).toBe(78272573)
+    test('gear ratio', () => {
+      expect(results.ratio).toBe(78272573)
+    })
   })
 })

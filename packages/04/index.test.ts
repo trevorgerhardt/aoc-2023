@@ -28,20 +28,22 @@ function processCards(cards: Card[]): number {
   return cards.length + sum(Object.values(extras))
 }
 
-describe('test', async () => {
-  const testFile = await Bun.file(`${import.meta.dir}/../../data/04-test.txt`).text()
-  const cards = getCards(testFile)
-  test('pt 1 should be', () => {
-    expect(cards.length).toEqual(6)
-    expect(sumCards(cards)).toBe(13)
+describe('2023-04', async () => {
+  describe('test', async () => {
+    const testFile = await Bun.file(`${import.meta.dir}/../../data/04-test.txt`).text()
+    const cards = getCards(testFile)
+    test('pt 1 should be', () => {
+      expect(cards.length).toEqual(6)
+      expect(sumCards(cards)).toBe(13)
+    })
+
+    test('p2 should be', () => {
+      expect(processCards(cards)).toBe(30)
+    })
   })
 
-  test('p2 should be', () => {
-    expect(processCards(cards)).toBe(30)
-  })
+  const inputFile = await Bun.file(`${import.meta.dir}/../../data/04-input.txt`).text()
+  const cards = getCards(inputFile)
+  console.log('pt 1', sumCards(cards))
+  console.log('pt 2', processCards(cards))
 })
-
-const inputFile = await Bun.file(`${import.meta.dir}/../../data/04-input.txt`).text()
-const cards = getCards(inputFile)
-console.log('pt 1', sumCards(cards))
-console.log('pt 2', processCards(cards))

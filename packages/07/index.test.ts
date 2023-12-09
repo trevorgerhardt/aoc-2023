@@ -99,17 +99,19 @@ function totalWinnings(hands: Hand[]) {
   }).reduce((tw, hand, rank) => tw + hand.bid * (rank + 1), 0)
 }
 
-describe('test', async () => {
-  const testFile = await Bun.file(`${import.meta.dir}/../../data/07-test.txt`).text()
-  const hands = parseFile(testFile)
-  test('pt 1 should be', () => {
-    expect(totalWinnings(hands)).toBe(5905)
+describe('2023-07', () => {
+  describe('test', async () => {
+    const testFile = await Bun.file(`${import.meta.dir}/../../data/07-test.txt`).text()
+    const hands = parseFile(testFile)
+    test('pt 1 should be', () => {
+      expect(totalWinnings(hands)).toBe(5905)
+    })
   })
-})
 
-test('result', async () => {
-  const inputFile = await Bun.file(`${import.meta.dir}/../../data/07-input.txt`).text()
-  const hands = parseFile(inputFile)
-  console.log('total winnings', totalWinnings(hands))
-  expect(Bun).toBeDefined()
+  test('result', async () => {
+    const inputFile = await Bun.file(`${import.meta.dir}/../../data/07-input.txt`).text()
+    const hands = parseFile(inputFile)
+    console.log('total winnings', totalWinnings(hands))
+    expect(Bun).toBeDefined()
+  })
 })

@@ -1,4 +1,4 @@
-import { expect, test } from 'bun:test'
+import { describe, expect, test } from 'bun:test'
 
 type Color = 'r' | 'g' | 'b'
 type Set = Record<Color, number>
@@ -54,36 +54,38 @@ const exampleBag: Set = { r: 12, g: 13, b: 14 }
 const input = await parseInput(`${import.meta.dir}/../../data/02-input.txt`)
 const inputBag: Set = { r: 12, g: 13, b: 14 }
 
-test('first example should match', () => {
-  expect(exampleGames[0].id).toBe(1)
-  expect(exampleGames[0].sets[0]).toEqual({ r: 4, g: 0, b: 3 })
-})
+describe('2023-02', () => {
+  test('first example should match', () => {
+    expect(exampleGames[0].id).toBe(1)
+    expect(exampleGames[0].sets[0]).toEqual({ r: 4, g: 0, b: 3 })
+  })
 
-test('test valid games', () => {
-  expect(isValidGame(exampleGames[0], exampleBag)).toBe(true)
-  expect(isValidGame(exampleGames[1], exampleBag)).toBe(true)
-  expect(isValidGame(exampleGames[2], exampleBag)).toBe(false)
-  expect(isValidGame(exampleGames[3], exampleBag)).toBe(false)
-  expect(isValidGame(exampleGames[4], exampleBag)).toBe(true)
-})
+  test('test valid games', () => {
+    expect(isValidGame(exampleGames[0], exampleBag)).toBe(true)
+    expect(isValidGame(exampleGames[1], exampleBag)).toBe(true)
+    expect(isValidGame(exampleGames[2], exampleBag)).toBe(false)
+    expect(isValidGame(exampleGames[3], exampleBag)).toBe(false)
+    expect(isValidGame(exampleGames[4], exampleBag)).toBe(true)
+  })
 
-test('example games sum', () => {
-  expect(sumGames(exampleGames.filter((g) => isValidGame(g, exampleBag)))).toBe(
-    8,
-  )
-})
+  test('example games sum', () => {
+    expect(sumGames(exampleGames.filter((g) => isValidGame(g, exampleBag)))).toBe(
+      8,
+    )
+  })
 
-test('example min sum power', () => {
-  const minSet1 = findMinSet(exampleGames[0])
-  expect(minSet1).toEqual({ r: 4, g: 2, b: 6 })
-  expect(sumMinSetPower([minSet1])).toBe(48)
-  expect(sumMinSetPower(exampleGames.map(findMinSet))).toBe(2286)
-})
+  test('example min sum power', () => {
+    const minSet1 = findMinSet(exampleGames[0])
+    expect(minSet1).toEqual({ r: 4, g: 2, b: 6 })
+    expect(sumMinSetPower([minSet1])).toBe(48)
+    expect(sumMinSetPower(exampleGames.map(findMinSet))).toBe(2286)
+  })
 
-test('full games sum', () => {
-  expect(sumGames(input.filter((g) => isValidGame(g, inputBag)))).toBe(2207)
-})
+  test('full games sum', () => {
+    expect(sumGames(input.filter((g) => isValidGame(g, inputBag)))).toBe(2207)
+  })
 
-test('full min sum power', () => {
-  expect(sumMinSetPower(input.map(findMinSet))).toBe(62241)
+  test('full min sum power', () => {
+    expect(sumMinSetPower(input.map(findMinSet))).toBe(62241)
+  })
 })

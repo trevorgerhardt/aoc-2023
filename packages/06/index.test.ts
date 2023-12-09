@@ -20,30 +20,32 @@ function chancesToBeat (raceLengthTimes: number[], recordDistances: number[]) {
   return raceLengthTimes.reduce((c, t, i) => c * waysToBeat(t, recordDistances[i]).length, 1)
 }
 
-describe('test', async () => {
-  const testFile = await Bun.file(`${import.meta.dir}/../../data/06-test.txt`).text()
-  const [ts, ds] = parseFile(testFile)
-  test('pt 1 should be', () => {
-    expect(ts.length).toEqual(3)
-    expect(ds.length).toBe(3)
-    expect(chancesToBeat(ts, ds)).toBe(288)
+describe('2023-06', () => {
+  describe('test', async () => {
+    const testFile = await Bun.file(`${import.meta.dir}/../../data/06-test.txt`).text()
+    const [ts, ds] = parseFile(testFile)
+    test('pt 1 should be', () => {
+      expect(ts.length).toEqual(3)
+      expect(ds.length).toBe(3)
+      expect(chancesToBeat(ts, ds)).toBe(288)
+    })
+
+    test('p2 should be', () => {
+      expect(chancesToBeat(
+        [+ts.map(n => `${n}`).join('')],
+        [+ds.map(n => `${n}`).join('')],
+      )).toBe(71503)
+    })
   })
 
-  test('p2 should be', () => {
-    expect(chancesToBeat(
+  test('result', async () => {
+    const inputFile = await Bun.file(`${import.meta.dir}/../../data/06-input.txt`).text()
+    const [ts, ds] = parseFile(inputFile)
+    console.log('pt 1', chancesToBeat(ts, ds))
+    console.log('pt 2', chancesToBeat(
       [+ts.map(n => `${n}`).join('')],
       [+ds.map(n => `${n}`).join('')],
-    )).toBe(71503)
+    ))
+    expect(Bun).toBeDefined()
   })
-})
-
-test('result', async () => {
-  const inputFile = await Bun.file(`${import.meta.dir}/../../data/06-input.txt`).text()
-  const [ts, ds] = parseFile(inputFile)
-  console.log('pt 1', chancesToBeat(ts, ds))
-  console.log('pt 2', chancesToBeat(
-    [+ts.map(n => `${n}`).join('')],
-    [+ds.map(n => `${n}`).join('')],
-  ))
-  expect(Bun).toBeDefined()
 })

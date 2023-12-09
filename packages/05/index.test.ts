@@ -46,23 +46,25 @@ function closestLocationRanges (seeds: number[], maps: number[][]) {
   return closest
 }
 
-describe('test', async () => {
-  const testFile = await Bun.file(`${import.meta.dir}/../../data/05-test.txt`).text()
-  const [seeds, maps] = parseFile(testFile)
-  test('pt 1 should be', () => {
-    expect(maps.length).toEqual(7)
-    expect(closestLocation(seeds, maps)).toBe(35)
+describe('2023-05', () => {
+  describe('test', async () => {
+    const testFile = await Bun.file(`${import.meta.dir}/../../data/05-test.txt`).text()
+    const [seeds, maps] = parseFile(testFile)
+    test('pt 1 should be', () => {
+      expect(maps.length).toEqual(7)
+      expect(closestLocation(seeds, maps)).toBe(35)
+    })
+
+    test('p2 should be', () => {
+      expect(closestLocationRanges(seeds, maps)).toBe(46)
+    })
   })
 
-  test('p2 should be', () => {
-    expect(closestLocationRanges(seeds, maps)).toBe(46)
+  test.skip('result', async () => {
+    const inputFile = await Bun.file(`${import.meta.dir}/../../data/05-input.txt`).text()
+    const [seeds, maps] = parseFile(inputFile)
+    console.log('pt 1', closestLocation(seeds, maps))
+    console.log('pt 2', closestLocationRanges(seeds, maps))
+    expect(Bun).toBeDefined()
   })
-})
-
-test('result', async () => {
-  const inputFile = await Bun.file(`${import.meta.dir}/../../data/05-input.txt`).text()
-  const [seeds, maps] = parseFile(inputFile)
-  console.log('pt 1', closestLocation(seeds, maps))
-  console.log('pt 2', closestLocationRanges(seeds, maps))
-  expect(Bun).toBeDefined()
 })

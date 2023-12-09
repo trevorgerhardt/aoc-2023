@@ -41,17 +41,19 @@ function calcResults(results: ReturnType<typeof parseFile>): number {
   return minSteps.reduce((lcm, steps) => calcLcm(lcm, steps))
 }
 
-describe('test', async () => {
-  const testFile = await Bun.file(`${import.meta.dir}/../../data/08-test.txt`).text()
-  const hands = parseFile(testFile)
-  test('pt 1 should be', () => {
-    expect(calcResults(hands)).toBe(6)
+describe('2023-08', () => {
+  describe('test', async () => {
+    const testFile = await Bun.file(`${import.meta.dir}/../../data/08-test.txt`).text()
+    const hands = parseFile(testFile)
+    test('pt 1 should be', () => {
+      expect(calcResults(hands)).toBe(6)
+    })
   })
-})
 
-test('result', async () => {
-  const inputFile = await Bun.file(`${import.meta.dir}/../../data/08-input.txt`).text()
-  const hands = parseFile(inputFile)
-  console.log('total steps', calcResults(hands))
-  expect(Bun).toBeDefined()
+  test('result', async () => {
+    const inputFile = await Bun.file(`${import.meta.dir}/../../data/08-input.txt`).text()
+    const hands = parseFile(inputFile)
+    console.log('total steps', calcResults(hands))
+    expect(Bun).toBeDefined()
+  })
 })
