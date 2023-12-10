@@ -1,0 +1,13 @@
+{
+  "name": "10",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "point-in-polygon-hao": "^1.1.0"
+  }
+}
