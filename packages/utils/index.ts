@@ -1,7 +1,13 @@
 export type Coord = { x: number; y: number }
 
 export const sum = (n: number[]) => n.reduce((sum, num) => sum + num, 0)
+export const sumWith = <T>(a: T[], fn: (v: T) => number) =>
+  a.reduce((sum, v) => sum + fn(v), 0)
 export const uniq = <T>(a: T[]): T[] => a.filter((v, i) => a.indexOf(v) === i)
+
+export function transpose<T>(matrix: T[][]) {
+  return matrix[0].map((_, c) => matrix.map((_, r) => matrix[r][c]))
+}
 
 /**
  * Parse groups of numbers from a string and return an array of those numbers.
