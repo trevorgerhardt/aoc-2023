@@ -9,6 +9,10 @@ export function transpose<T>(matrix: T[][]) {
   return matrix[0].map((_, c) => matrix.map((_, r) => matrix[r][c]))
 }
 
+export function matrixToString<T>(m: T[][]) {
+  return m.map((r) => r.join('')).join('\n')
+}
+
 /**
  * Parse groups of numbers from a string and return an array of those numbers.
  * @param s
