@@ -1,8 +1,8 @@
 export type Coord = { x: number; y: number }
 
-export const sum = (n: number[]) => n.reduce((sum, num) => sum + num, 0)
-export const sumWith = <T>(a: T[], fn: (v: T) => number) =>
-  a.reduce((sum, v) => sum + fn(v), 0)
+export const sum = (n: number[]) => n.reduce((total, num) => total + num, 0)
+export const sumWith = <T>(a: T[], fn: (v: T, i: number) => number) =>
+  a.reduce((total, v, i) => total + fn(v, i), 0)
 export const uniq = <T>(a: T[]): T[] => a.filter((v, i) => a.indexOf(v) === i)
 
 export function transpose<T>(matrix: T[][]) {
@@ -21,19 +21,18 @@ export function matrixToString<T>(m: T[][]) {
 export const nums = (s: string, splitWith = ' ') =>
   s.split(splitWith).map(Number)
 
+const baseUrl = 'https://adventofcode.com'
 export async function getInput(day: number, year = 2023) {
-  const filePath = `${import.meta.dir}/../../data/${year}-${day}.txt`
+  const filename = `${year}-${day}.txt`
+  const filePath = `${import.meta.dir}/../../data/${filename}`
   const file = Bun.file(filePath)
   const exists = await file.exists()
   if (!exists) {
-    console.log('File not found, fetching')
+    console.log(`File ${filename} not found, fetching from ${baseUrl}.`)
     const Cookie = Bun.env.COOKIE
     if (!Cookie) throw new Error('process.env.COOKIE must be set')
     const headers = new Headers({ Cookie })
-    const res = await fetch(
-      `https://adventofcode.com/${year}/day/${day}/input`,
-      { headers },
-    )
+    const res = await fetch(`${baseUrl}/${year}/day/${day}/input`, { headers })
     const text = await res.text()
     await Bun.write(file, text.trim())
   }
