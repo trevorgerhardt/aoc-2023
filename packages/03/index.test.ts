@@ -91,7 +91,7 @@ function sumOfParts(input: string) {
   }
 
   for (const numberPos of numberPositions) {
-    if (numberPos.coords.find((c) => isAdjacentToSymbol(c, symbolIndexes))) {
+    if (numberPos.coords.find(c => isAdjacentToSymbol(c, symbolIndexes))) {
       sum += numberPos.total
     }
   }

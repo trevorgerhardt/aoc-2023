@@ -8,7 +8,7 @@ const exampleInput = `
 `.trim()
 
 function parseInput(input: string) {
-  return input.split('\n').map((l) => nums(l))
+  return input.split('\n').map(l => nums(l))
 }
 
 function diff(seq: number[]) {
@@ -20,12 +20,12 @@ function diff(seq: number[]) {
 }
 
 function predictNextValue(seq: number[]): number {
-  if (seq.every((v) => v === 0)) return 0
+  if (seq.every(v => v === 0)) return 0
   return seq[seq.length - 1] + predictNextValue(diff(seq))
 }
 
 function predictPrevValue(seq: number[]): number {
-  if (seq.every((v) => v === 0)) return 0
+  if (seq.every(v => v === 0)) return 0
   return seq[0] - predictPrevValue(diff(seq))
 }
 

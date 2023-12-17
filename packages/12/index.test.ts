@@ -11,7 +11,7 @@ const exampleInput1 = `
 `.trim()
 
 function parseInput(input: string) {
-  return input.split('\n').map((l) => {
+  return input.split('\n').map(l => {
     const [status, counts] = l.split(' ')
     return {
       status,

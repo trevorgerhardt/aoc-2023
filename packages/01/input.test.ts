@@ -29,7 +29,7 @@ describe('2023-01', () => {
 
   test('final answer should be ?', async () => {
     const inputFile = await getInput(1)
-    const testData = inputFile.split('\n').filter((s) => s.length > 0)
+    const testData = inputFile.split('\n').filter(s => s.length > 0)
 
     expect(sum(testData.map(calibrateValue))).toBe(54530)
   })

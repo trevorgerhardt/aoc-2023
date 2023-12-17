@@ -77,9 +77,9 @@ describe('2023-02', () => {
   })
 
   test('example games sum', () => {
-    expect(
-      sumGames(exampleGames.filter((g) => isValidGame(g, exampleBag))),
-    ).toBe(8)
+    expect(sumGames(exampleGames.filter(g => isValidGame(g, exampleBag)))).toBe(
+      8,
+    )
   })
 
   test('example min sum power', () => {
@@ -90,7 +90,7 @@ describe('2023-02', () => {
   })
 
   test('full games sum', () => {
-    expect(sumGames(input.filter((g) => isValidGame(g, inputBag)))).toBe(2207)
+    expect(sumGames(input.filter(g => isValidGame(g, inputBag)))).toBe(2207)
   })
 
   test('full min sum power', () => {

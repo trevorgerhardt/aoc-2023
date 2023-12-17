@@ -138,7 +138,7 @@ function getEnclosedCells(loop: Pipe[], grid: Pipe[][]): Pipe[] {
     l.inLoop = true
   }
   const polygon = [coords]
-  return grid.flat().filter((p) => !p.inLoop && inside([p.x, p.y], polygon))
+  return grid.flat().filter(p => !p.inLoop && inside([p.x, p.y], polygon))
 }
 
 function calcResults1(results: ReturnType<typeof parseInput>): number {

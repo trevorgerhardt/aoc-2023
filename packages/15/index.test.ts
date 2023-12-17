@@ -19,7 +19,7 @@ function HASHMAP(input: string[]) {
   for (const step of input) {
     const [label, focalLength] = step.split(/[=-]/)
     const box = boxes[HASH(label)]
-    const lensIndex = box.findIndex((l) => l.l === label)
+    const lensIndex = box.findIndex(l => l.l === label)
     if (focalLength) {
       if (lensIndex > -1) box[lensIndex].f = +focalLength
       else box.push({ l: label, f: +focalLength })

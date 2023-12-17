@@ -3,8 +3,8 @@ import { getInput } from '../utils'
 
 function parseFile(file: string) {
   const [timeLine, distanceLine] = file.split('\n')
-  const ts = Array.from(timeLine.match(/\d+/g)!).map((s) => +s)
-  const ds = Array.from(distanceLine.match(/\d+/g)!).map((s) => +s)
+  const ts = Array.from(timeLine.match(/\d+/g)!).map(s => +s)
+  const ds = Array.from(distanceLine.match(/\d+/g)!).map(s => +s)
   return [ts, ds]
 }
 
@@ -39,8 +39,8 @@ describe('2023-06', () => {
     test('p2 should be', () => {
       expect(
         chancesToBeat(
-          [+ts.map((n) => `${n}`).join('')],
-          [+ds.map((n) => `${n}`).join('')],
+          [+ts.map(n => `${n}`).join('')],
+          [+ds.map(n => `${n}`).join('')],
         ),
       ).toBe(71503)
     })
@@ -53,8 +53,8 @@ describe('2023-06', () => {
     console.log(
       'pt 2',
       chancesToBeat(
-        [+ts.map((n) => `${n}`).join('')],
-        [+ds.map((n) => `${n}`).join('')],
+        [+ts.map(n => `${n}`).join('')],
+        [+ds.map(n => `${n}`).join('')],
       ),
     )
     expect(Bun).toBeDefined()

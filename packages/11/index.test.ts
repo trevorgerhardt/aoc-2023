@@ -38,9 +38,9 @@ function expandUniverse(
   gCols: boolean[],
   expandBy: number,
 ) {
-  return galaxies.map((g) => {
-    const emptyRows = gRows.slice(0, g.y).filter((g) => g !== true).length
-    const emptyCols = gCols.slice(0, g.x).filter((g) => g !== true).length
+  return galaxies.map(g => {
+    const emptyRows = gRows.slice(0, g.y).filter(g => g !== true).length
+    const emptyCols = gCols.slice(0, g.x).filter(g => g !== true).length
     return {
       x: g.x + emptyCols * (expandBy - 1),
       y: g.y + emptyRows * (expandBy - 1),

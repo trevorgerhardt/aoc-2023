@@ -3,13 +3,13 @@ import { getInput } from '../utils'
 
 function parseFile(file: string) {
   const [seedLine, ...mapSections] = file.split('\n\n')
-  const seeds = Array.from(seedLine.match(/\d+/g)!).map((s) => +s)
+  const seeds = Array.from(seedLine.match(/\d+/g)!).map(s => +s)
 
-  const maps = mapSections.map((section) => {
+  const maps = mapSections.map(section => {
     const map: number[] = []
     const [, ...lines] = section.split('\n')
     for (const line of lines) {
-      const [drs, srs, rl] = Array.from(line.match(/\d+/g)!).map((s) => +s)
+      const [drs, srs, rl] = Array.from(line.match(/\d+/g)!).map(s => +s)
       for (let i = srs; i < srs + rl; i++) {
         map[i] = drs + (i - srs)
       }

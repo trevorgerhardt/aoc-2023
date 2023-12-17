@@ -30,13 +30,13 @@ const exampleAfter1SpinCycle = `
 `.trim()
 
 function parse(input: string) {
-  return input.split('\n').map((r) => r.split(''))
+  return input.split('\n').map(r => r.split(''))
 }
 
 function calcLoad(rockRows: string[][]) {
   return rockRows
     .toReversed()
-    .reduce((l, r, i) => l + r.filter((r) => r === 'O').length * (i + 1), 0)
+    .reduce((l, r, i) => l + r.filter(r => r === 'O').length * (i + 1), 0)
 }
 
 function rollNorthF(rockRows: string[][]) {

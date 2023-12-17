@@ -10,19 +10,19 @@ function getCards(file: string) {
   return file
     .trim()
     .split('\n')
-    .map((line) => {
+    .map(line => {
       const [winners, ours] = line
         .split(':')[1]
         .split('|')
-        .map((s) => Array.from(s.match(/\d+/g)!))
-      const matches = ours.filter((o) => winners.includes(o)).length
+        .map(s => Array.from(s.match(/\d+/g)!))
+      const matches = ours.filter(o => winners.includes(o)).length
       const points = matches === 0 ? 0 : 2 ** (matches - 1)
       return { matches, points }
     })
 }
 
 const sum = (arr: number[]) => arr.reduce((p, v) => p + v, 0)
-const sumCards = (cards: Card[]) => sum(cards.map((c) => c.points))
+const sumCards = (cards: Card[]) => sum(cards.map(c => c.points))
 
 function processCards(cards: Card[]): number {
   const extras: number[] = []

@@ -56,8 +56,8 @@ function calc(patternString: string) {
 
   // Horizontal reflection
   const transposedPatternRows = transpose(
-    patternRows.map((r) => r.split('')),
-  ).map((r) => r.join(''))
+    patternRows.map(r => r.split('')),
+  ).map(r => r.join(''))
   for (let r = 0; r < transposedPatternRows.length - 1; r++) {
     if (rowIsReflected(transposedPatternRows, r)) {
       return r + 1

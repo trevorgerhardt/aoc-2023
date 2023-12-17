@@ -35,8 +35,8 @@ const calcLcm = (a: number, b: number): number => (a * b) / calcGcf(a, b)
 
 function calcResults(results: ReturnType<typeof parseFile>): number {
   const [sequence, nodes] = results
-  const startingNodes = Object.keys(nodes).filter((n) => n.endsWith('A'))
-  const minSteps = startingNodes.map((n) => calcSteps(n, sequence, nodes))
+  const startingNodes = Object.keys(nodes).filter(n => n.endsWith('A'))
+  const minSteps = startingNodes.map(n => calcSteps(n, sequence, nodes))
   return minSteps.reduce((lcm, steps) => calcLcm(lcm, steps))
 }
 

@@ -24,7 +24,7 @@ const parse = (input: string) =>
   input
     .replace(/\n/g, 'N')
     .split('N')
-    .map((r) => r.split('') as Tile[])
+    .map(r => r.split('') as Tile[])
 
 function nextDirections(d: Dir, t: Tile): Dir[] {
   switch (t) {
@@ -55,7 +55,7 @@ function energized(
   startBeam: Beam = { x: -1, y: 0, d: 'e' },
 ) {
   const beams: Beam[] = [startBeam]
-  const energizedTiles: Dir[][][] = tiles.map((r) => r.map((_) => []))
+  const energizedTiles: Dir[][][] = tiles.map(r => r.map(_ => []))
   const height = tiles.length
   const width = tiles[0].length
   while (beams.length > 0) {
@@ -84,9 +84,7 @@ function energized(
       if (d2) beams.push({ x: x, y: y, d: d2 })
     })
   }
-  return sumWith(energizedTiles, (r) =>
-    sumWith(r, (v) => (v.length > 0 ? 1 : 0)),
-  )
+  return sumWith(energizedTiles, r => sumWith(r, v => (v.length > 0 ? 1 : 0)))
 }
 
 function maxEnergy(tiles: ReturnType<typeof parse>) {

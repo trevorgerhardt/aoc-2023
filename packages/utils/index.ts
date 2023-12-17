@@ -10,7 +10,7 @@ export function transpose<T>(matrix: T[][]) {
 }
 
 export function matrixToString<T>(m: T[][]) {
-  return m.map((r) => r.join('')).join('\n')
+  return m.map(r => r.join('')).join('\n')
 }
 
 /**

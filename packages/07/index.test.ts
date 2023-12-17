@@ -40,7 +40,7 @@ function getHandRank(cards: string[]) {
       default:
         return 0
     }
-  } 
+  }
   switch (cc[0][1]) {
     case 5:
       return 6
@@ -49,16 +49,16 @@ function getHandRank(cards: string[]) {
     case 3: {
       if (ct.J === 3) {
         return 4 + cc[1][1]
-      } 
+      }
       return 4 + ct.J
     }
     case 2: {
       if (ct.J === 2) {
         if (cc[1][1] === 2) {
           return 5 // 4 of a kind
-        } 
+        }
         return 3
-      } 
+      }
       if (cc[1][1] === 2) {
         return 4 // full-house
       }
@@ -76,7 +76,7 @@ type Hand = {
 }
 
 function parseFile(file: string): Hand[] {
-  return file.split('\n').map((line) => {
+  return file.split('\n').map(line => {
     const [type, bid] = line.split(' ')
     const cards = type.split('')
     return {
