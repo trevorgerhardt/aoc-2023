@@ -2,5 +2,8 @@
   "files.exclude": {
     "**/.DS_Store": false,
     "**/.git": false
-  }
+  },
+  "npm.packageManager": "bun",
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true
 }
