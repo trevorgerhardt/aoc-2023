@@ -28,18 +28,18 @@ const parse = (input: string) =>
 
 function nextDirections(d: Dir, t: Tile): Dir[] {
   switch (t) {
-    case '\\': {
+    case '\\':
       if (d === 'n') return ['w']
       if (d === 's') return ['e']
       if (d === 'e') return ['s']
       if (d === 'w') return ['n']
-    }
-    case '/': {
+      break
+    case '/':
       if (d === 'n') return ['e']
       if (d === 's') return ['w']
       if (d === 'e') return ['n']
       if (d === 'w') return ['s']
-    }
+      break
     case '|':
       if (d === 'w' || d === 'e') return ['n', 's']
       break

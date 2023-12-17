@@ -123,9 +123,8 @@ function spinCycles(rockRows: string[][], spins: number) {
         // We found a repeat in the cycle.
         const sizeDiff = formations.length - repeats.length
         return parse(repeats[((spins - sizeDiff) % repeats.length) - 1])
-      } else {
-        repeats.push(asStr)
       }
+      repeats.push(asStr)
     } else {
       formations.push(asStr)
     }
