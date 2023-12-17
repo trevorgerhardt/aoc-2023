@@ -2,8 +2,8 @@
 FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 [ -z "$FILES" ] && exit 0
 
-# Prettify all selected files
-echo "$FILES" | xargs bunx prettier@3 --ignore-unknown --write
+# Format all selected files
+echo "$FILES" | xargs bunx @biomejs/biome@1 format --write
 
 # Biome check and lint all selected files
 echo "$FILES" | xargs bunx @biomejs/biome@1 check --apply

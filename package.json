@@ -2,16 +2,12 @@
   "name": "aoc-2023",
   "private": true,
   "scripts": {
-    "fmt": "bunx prettier@4 . --write",
+    "fmt": "bunx @biomejs@1 format . --write",
     "lint": "bunx @biomejs/biome@1 check --apply ./",
     "postinstall": "cp hooks/* .git/hooks/",
     "tsc": "bunx tsc@5"
   },
   "workspaces": [
     "packages/*"
-  ],
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  }
+  ]
 }
