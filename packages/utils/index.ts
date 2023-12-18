@@ -1,4 +1,7 @@
 export type Coord = { x: number; y: number }
+export type Dir = 'n' | 's' | 'w' | 'e'
+
+export const coordToStr = (c: Coord) => `${c.y},${c.x}`
 
 export const sum = (n: number[]) => n.reduce((total, num) => total + num, 0)
 export const sumWith = <T>(a: T[], fn: (v: T, i: number) => number) =>
@@ -11,6 +14,19 @@ export function transpose<T>(matrix: T[][]) {
 
 export function matrixToString<T>(m: T[][]) {
   return m.map(r => r.join('')).join('\n')
+}
+
+export function timestamp () {
+  const ms = Bun.nanoseconds() / 1_000_000
+  if (ms < 1) return `${ms.toFixed(3)}ms`
+  if (ms < 1_000) return `${ms.toFixed(1)}ms`
+  const s = ms / 1_000
+  if (s < 60) return `${s.toFixed(1)}s`
+  return `${s.toFixed(0)}s`
+}
+
+export function print (...data: any[]) {
+  return console.log(`${timestamp()} $`, ...data)
 }
 
 /**
