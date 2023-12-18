@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { Coord, Dir, coordToStr, getInput, print } from '../utils'
+import { Coord, getInput, print } from '../utils'
 
 const DAY = 17
 
@@ -27,137 +27,111 @@ const exampleInput2 = `
 999999999991
 `.trim()
 
-type Block = Coord & { d: Dir }
-
 const parse = (input: string) =>
   input
     .split('\n')
     .map(r => r.split('').map(v => +v))
 
-const canTurn = (path: Block[]) =>
-  path.length >= 4 && path.slice(0, 4).every(b => b.d === path[0].d)
-
-const mustTurn = (path: Block[]) =>
-  path.length >= 10 && path.slice(0, 10).every(b => b.d === path[0].d)
-
-const reverseDir: Record<Dir, Dir> = {
-  n: 's',
-  s: 'n',
-  e: 'w',
-  w: 'e'
+type Step = Coord & {
+  dx: number
+  dy: number
+  m: number
+  heatLoss: number
 }
 
-function findNeighbors (path: Block[]): Block[] {
-  const {x, y, d} = path[0]
-  const neighbors: Block[] = ([
-    {x, y: y + 1, d: 's'},
-    {x: x + 1, y, d: 'e'},
-    {x, y: y - 1, d: 'n'},
-    {x: x - 1, y, d: 'w'}
-  ] as Block[]).filter(v => v.d !== reverseDir[d])
+const toKey = (c: Step) => [c.x, c.y, c.dx, c.dy, c.m].join(',')
 
-  if (!canTurn(path)) return neighbors.filter(v => v.d === d)
-  if (mustTurn(path)) return neighbors.filter(v => v.d !== d)
-  return neighbors
-}
+const turns = (s: Step, minMoves: number) => s.m >= minMoves 
+  ? s.dx === 0
+    ? [{dx: -1, dy: 0}, {dx: 1, dy: 0}]
+    : [{dx: 0, dy: -1}, {dx: 0, dy: 1}]
+  : []
 
-const Loss = {
-  MAX: Infinity
-}
-
-function search (
-  path: Block[], 
-  blocks: number[][],
-  heatLoss: number,
-  cache: Map<string, number>
-): false | number {
-  const curr = path[0]
-  const {x, y} = curr // check bounds of current location
-  if (x < 0 || y < 0 || x >= blocks[0].length || y >= blocks.length) return false
-  if (path.length > 10 && path.slice(0, 10).every(b => b.d === path[0].d)) {
-    return false
-  }
-  
-  const totalHeatLoss = blocks[y][x] + heatLoss
-  if (totalHeatLoss > Loss.MAX) return false // Bad path
-
-  // Reached the end!
-  if (y === (blocks.length - 1) && x === (blocks[0].length - 1)) {
-    if (!path.slice(0, 4).every(b => b.d === curr.d)) return false // CANNOT STOP
-
-    print(path.length, 'L:', totalHeatLoss, 'C:', cache.size, '\n', path.toReversed().map(p => coordToStr(p) + p.d).join(' '), '\n')
-
-    if (totalHeatLoss < Loss.MAX) {
-      print('\nNEW MINIMUM ------------\n', totalHeatLoss, '\n---------------------\n')
-      Loss.MAX = totalHeatLoss
-    }
-
-    return totalHeatLoss
-  }
-
-  // Check the cache, find the index of the first path that doesn't match the current one.
-  const turnIndex = path.findIndex(b => b.d !== curr.d)
-  const cacheStr = canTurn(path) 
-    ? coordToStr(curr) + curr.d
-    : path.slice(0, turnIndex > 1 ? turnIndex : undefined).map(c => coordToStr(c) + c.d).join(' ')
-  const minLossAtPath = cache.get(cacheStr)
-
-  // We already found a more optimal path to this location, abandon this route.
-  if (minLossAtPath && totalHeatLoss >= minLossAtPath) return false
-
-  // Min loss to location with path calculated, cache it.
-  cache.set(cacheStr, totalHeatLoss) 
-
-  let minLoss = Infinity
-  for (const neighbor of findNeighbors(path)) { 
-    path.unshift(neighbor)
-    const foundPath = search(path, blocks, totalHeatLoss, cache)
-    if (foundPath !== false) {
-      minLoss = Math.min(foundPath, minLoss)
-    }
-    path.shift()
-  }
-  
-  return minLoss < Infinity ? minLoss : false
-}
-
-function calcLazyMax (blocks: ReturnType<typeof parse>) {
-  let maxLoss = 0
-  let x = 0, y = 0
-  while (x !== blocks[0].length - 1 && y !== blocks.length - 1) {
-    x++
-    maxLoss += blocks[y][x]
-    y++
-    maxLoss += blocks[y][x]
-  }
-  return maxLoss
-}
-
-function maxEnergy(
-  blocks: ReturnType<typeof parse>, 
-  maxLoss?: number
+function search(
+  blocks: ReturnType<typeof parse>,
+  minMoves = 4,
+  maxMoves = 10
 ): number {
-  Loss.MAX = maxLoss ?? calcLazyMax(blocks)
-  console.log('lazy max', maxLoss)
-  const cache = new Map<string, number>()
-  const startS = search([{x: 0, y: 1, d: 's'}], blocks, 0, cache)
-  const startE = search([{x: 1, y: 0, d: 'e'}], blocks, 0, cache)
-  return Math.min(startE || Infinity, startS || Infinity)
+  const maxX = blocks[0].length - 1
+  const maxY = blocks.length - 1
+  const inBounds = (x: number, y: number) =>
+    x >= 0 && x <= maxX && y >= 0 && y <= maxY
+  let stepsChecked = 0
+  let minHeatLoss = 0
+  let steps: Step[] = [{
+    x: 0, y: 0, dx: 1, dy: 0, heatLoss: 0, m: 0
+  }, {
+    x: 0, y: 0, dx: 0, dy: 1, heatLoss: 0, m: 0
+  }]
+
+  const seenSteps = new Set<string>()
+
+  while (steps.length > 0) {
+    const newSteps: Step[] = []
+
+    for (const c of steps) {
+      stepsChecked++
+      const key = toKey(c)
+      if (seenSteps.has(key)) continue
+
+      // Delay checking this step
+      if (c.heatLoss > minHeatLoss) {
+        newSteps.push(c)
+        continue
+      }
+
+      if (c.m >= minMoves && c.x === maxX && c.y === maxY) {
+        print('Found finish. Total steps checked:', stepsChecked, 'Unique steps:', seenSteps.size)
+        return c.heatLoss
+      }
+
+      seenSteps.add(key)
+
+      let nextX = c.x + c.dx
+      let nextY = c.y + c.dy
+      if (c.m < maxMoves && inBounds(nextX, nextY)) {
+        newSteps.push({
+          x: nextX,
+          y: nextY,
+          dx: c.dx,
+          dy: c.dy,
+          m: c.m + 1,
+          heatLoss: c.heatLoss + blocks[nextY][nextX]
+        })
+      } 
+
+      for (const t of turns(c, minMoves)) {
+        nextX = c.x + t.dx
+        nextY = c.y + t.dy
+        if (inBounds(nextX, nextY)) {
+          newSteps.push({
+            x: nextX,
+            y: nextY,
+            dx: t.dx,
+            dy: t.dy,
+            m: 1,
+            heatLoss: c.heatLoss + blocks[nextY][nextX]
+          })
+        }
+      }
+    }
+
+    steps = newSteps
+    minHeatLoss++
+  }
+
+  throw 'Failed to find finish'
 }
 
 describe(`2023-${DAY}`, () => {
   describe('test', async () => {
-    test.skip('pt 1 should be', () => {
-      expect(maxEnergy([
-        [1, 2],
-        [3, 4]
-      ])).toBe(6)
-      expect(maxEnergy(parse(exampleInput1), 102)).toBe(102)
+    test('pt 1 should be', () => {
+      expect(search(parse(exampleInput1), 0, 3)).toBe(102)
     })
 
     test('pt 2 should be', () => {
-      expect(maxEnergy(parse(exampleInput2), 100)).toBe(71)
-      expect(maxEnergy(parse(exampleInput1), 102)).toBe(94)
+      expect(search(parse(exampleInput2))).toBe(71)
+      expect(search(parse(exampleInput1))).toBe(94)
     })
   })
 
@@ -165,8 +139,8 @@ describe(`2023-${DAY}`, () => {
     const inputFile = await getInput(DAY)
     const parsedInput = parse(inputFile)
     expect(parsedInput.length).toBe(parsedInput[0].length)
-    // console.log('result:', maxEnergy(parsedInput, 859))
-    console.log('result 2:', maxEnergy(parsedInput, 1256))
+    console.log('result:', search(parsedInput, 0, 3))
+    console.log('result 2:', search(parsedInput))
     expect(Bun).toBeDefined()
   })
 })
