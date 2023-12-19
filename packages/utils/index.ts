@@ -4,6 +4,9 @@ export type Dir = 'n' | 's' | 'w' | 'e'
 export const coordToStr = (c: Coord) => `${c.y},${c.x}`
 
 export const sum = (n: number[]) => n.reduce((total, num) => total + num, 0)
+export const sumValues = <T extends number>(
+  o: { [s: string]: T } | ArrayLike<T>,
+) => sum(Object.values(o))
 export const sumWith = <T>(a: T[], fn: (v: T, i: number) => number) =>
   a.reduce((total, v, i) => total + fn(v, i), 0)
 export const uniq = <T>(a: T[]): T[] => a.filter((v, i) => a.indexOf(v) === i)

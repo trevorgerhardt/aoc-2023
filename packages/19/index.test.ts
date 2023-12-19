@@ -3,6 +3,7 @@ import {
   createPrintEstimatedFinishTime,
   getInput,
   print,
+  sumValues,
   sumWith,
 } from '../utils'
 
@@ -88,24 +89,21 @@ const parse = (input: string) => {
   return { wfs, parts }
 }
 
+function runWorkflow(p: Part, wf: Wf[]) {
+  for (const rule of wf) if (rule.match(p)) return rule.d
+  throw 'Workflow failed.'
+}
+
 function partIsAccepted(p: Part, wfs: Record<string, Wf[]>) {
   let d: Dest = 'in'
-  while (d !== 'R' && d !== 'A') {
-    const rules = wfs[d]
-    for (const rule of rules) {
-      if (rule.match(p)) {
-        d = rule.d
-        break
-      }
-    }
-  }
+  while (d !== 'R' && d !== 'A') d = runWorkflow(p, wfs[d])
   return d === 'A'
 }
 
 function calcRatings(input: ReturnType<typeof parse>) {
   return sumWith(
     input.parts.filter(p => partIsAccepted(p, input.wfs)),
-    p => p.a + p.m + p.x + p.s,
+    sumValues,
   )
 }
 
@@ -178,7 +176,7 @@ function lazyUniq({ wfs }: ReturnType<typeof parse>) {
   for (let x = 1; x <= 4000; x++) {
     print(`x ${x}`)
     for (let m = 1; m <= 4000; m++) {
-      print(`m ${m}`)
+      print(`m ${m}, combinations ${combinations.toLocaleString()}`)
       for (let a = 1; a <= 4000; a++) {
         for (let s = 1; s <= 4000; s++) {
           if (partIsAccepted({ x, m, a, s }, wfs)) combinations++
@@ -200,7 +198,7 @@ describe(`2023-${DAY}`, () => {
       expect(uniqueCombinations(parse(exampleInput1))).toBe(167409079868000)
     })
 
-    test.skip('lazy pt 2 should be', () => {
+    test('lazy pt 2 should be', () => {
       expect(lazyUniq(parse(exampleInput1))).toBe(167409079868000)
     })
   })
