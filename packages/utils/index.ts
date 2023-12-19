@@ -16,17 +16,41 @@ export function matrixToString<T>(m: T[][]) {
   return m.map(r => r.join('')).join('\n')
 }
 
-export function timestamp() {
-  const ms = Bun.nanoseconds() / 1_000_000
+export function timestamp(ns = Bun.nanoseconds()) {
+  const ms = ns / 1_000_000
   if (ms < 1) return `${ms.toFixed(3)}ms`
   if (ms < 1_000) return `${ms.toFixed(1)}ms`
   const s = ms / 1_000
   if (s < 60) return `${s.toFixed(1)}s`
-  return `${s.toFixed(0)}s`
+  const m = s / 60
+  if (m < 60) return `${m.toFixed(0)}m${(s % 60).toFixed(0)}s`
+  const h = m / 60
+  if (h < 24) return `${h.toFixed(0)}h${(m % 60).toFixed(0)}}`
+  const d = h / 24
+  if (d < 365) return `${d.toFixed(0)}d${(h % 24).toFixed(0)}`
+  const y = d / 365
+  return `${y.toLocaleString()} years`
 }
 
 export function print(...data: unknown[]) {
   return console.log(`${timestamp()} $`, ...data)
+}
+
+export function estimatedFinishTime(
+  iterations: number,
+  last: number,
+  now = Bun.nanoseconds(),
+) {
+  return timestamp((now - last) * iterations)
+}
+
+export function createPrintEstimatedFinishTime() {
+  let prev = Bun.nanoseconds()
+  return function printEstimate(left: number) {
+    const now = Bun.nanoseconds()
+    print(`estimated finish time: ${estimatedFinishTime(left, prev, now)}`)
+    prev = now
+  }
 }
 
 /**

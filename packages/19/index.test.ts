@@ -1,5 +1,10 @@
 import { describe, expect, test } from 'bun:test'
-import { getInput, print, sumWith } from '../utils'
+import {
+  createPrintEstimatedFinishTime,
+  getInput,
+  print,
+  sumWith,
+} from '../utils'
 
 const DAY = 19
 
@@ -169,6 +174,7 @@ function uniqueCombinations({ wfs }: ReturnType<typeof parse>) {
 // HOHOHO!
 function lazyUniq({ wfs }: ReturnType<typeof parse>) {
   let combinations = 0
+  const printEstimate = createPrintEstimatedFinishTime()
   for (let x = 1; x <= 4000; x++) {
     print(`x ${x}`)
     for (let m = 1; m <= 4000; m++) {
@@ -178,6 +184,7 @@ function lazyUniq({ wfs }: ReturnType<typeof parse>) {
           if (partIsAccepted({ x, m, a, s }, wfs)) combinations++
         }
       }
+      printEstimate((4_001 - x) * (4_001 - m) * 4_000 * 4_000)
     }
   }
   return combinations
