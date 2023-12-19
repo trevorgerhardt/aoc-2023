@@ -22,46 +22,49 @@ U 2 (#7a21e3)
 
 type Dir = 'U' | 'D' | 'L' | 'R'
 
-function codeToDir (s: string): Dir {
+function codeToDir(s: string): Dir {
   switch (s) {
-    case '0': return 'R'
-    case '1': return 'D'
-    case '2': return 'L'
-    case '3': return 'U'
+    case '0':
+      return 'R'
+    case '1':
+      return 'D'
+    case '2':
+      return 'L'
+    case '3':
+      return 'U'
   }
   return 'U'
 }
 
 const parse = (input: string) =>
-  input
-    .split('\n')
-    .map(r => {
-      const [d, m, c] = r.split(' ')
-      const hexMeters = parseInt(c.slice(2, -2), 16)
-      const dirCode = c.slice(-2, -1)
-      return {
-        d: codeToDir(dirCode),
-        m: hexMeters,
-        c: c.slice(1, -1) // remove parens
-      }
-    })
+  input.split('\n').map(r => {
+    const row = r.split(' ')
+    const hexMeters = parseInt(row[2].slice(2, -2), 16)
+    const dirCode = row[2].slice(-2, -1)
+    return {
+      d: codeToDir(dirCode),
+      m: hexMeters,
+    }
+  })
 
-function calcPolygonArea (p: [number, number][]): number {
+function calcPolygonArea(p: [number, number][]): number {
   let area = 0
-
   for (let i = 0; i < p.length; i++) {
     const j = (i + 1) % p.length
     area += p[i][0] * p[j][1]
     area -= p[i][1] * p[j][0]
   }
-
-  return Math.abs(area / 2);
+  return Math.abs(area / 2)
 }
 
 function calc(input: ReturnType<typeof parse>) {
   const trench: [number, number][] = [[0, 0]]
-  let x = 0, y = 0
-  let maxX = 0, maxY = 0, minX = 0, minY = 0
+  let x = 0
+  let y = 0
+  let maxX = 0
+  let maxY = 0
+  let minX = 0
+  let minY = 0
   for (const step of input) {
     for (let i = 0; i < step.m; i++) {
       if (step.d === 'U') y--
@@ -77,9 +80,16 @@ function calc(input: ReturnType<typeof parse>) {
   }
 
   print('trench dug. Now calculating interior...')
-  print('trench length', trench.length, 'x size', maxX - minX, 'y size', maxY - minY)
+  print(
+    'trench length',
+    trench.length,
+    'x size',
+    maxX - minX,
+    'y size',
+    maxY - minY,
+  )
 
-  return calcPolygonArea(trench) + ((trench.length - 1) / 2) + 1 
+  return calcPolygonArea(trench) + (trench.length - 1) / 2 + 1
 }
 
 describe(`2023-${DAY}`, () => {

@@ -28,9 +28,7 @@ const exampleInput2 = `
 `.trim()
 
 const parse = (input: string) =>
-  input
-    .split('\n')
-    .map(r => r.split('').map(v => +v))
+  input.split('\n').map(r => r.split('').map(v => +v))
 
 type Step = Coord & {
   dx: number
@@ -41,16 +39,22 @@ type Step = Coord & {
 
 const toKey = (c: Step) => [c.x, c.y, c.dx, c.dy, c.m].join(',')
 
-const turns = (s: Step, minMoves: number) => s.m >= minMoves 
-  ? s.dx === 0
-    ? [{dx: -1, dy: 0}, {dx: 1, dy: 0}]
-    : [{dx: 0, dy: -1}, {dx: 0, dy: 1}]
-  : []
+const turnX = [
+  { dx: -1, dy: 0 },
+  { dx: 1, dy: 0 },
+]
+const turnY = [
+  { dx: 0, dy: -1 },
+  { dx: 0, dy: 1 },
+]
+
+const turns = (s: Step, minMoves: number) =>
+  s.m >= minMoves ? (s.dx === 0 ? turnX : turnY) : []
 
 function search(
   blocks: ReturnType<typeof parse>,
   minMoves = 4,
-  maxMoves = 10
+  maxMoves = 10,
 ): number {
   const maxX = blocks[0].length - 1
   const maxY = blocks.length - 1
@@ -58,11 +62,24 @@ function search(
     x >= 0 && x <= maxX && y >= 0 && y <= maxY
   let stepsChecked = 0
   let minHeatLoss = 0
-  let steps: Step[] = [{
-    x: 0, y: 0, dx: 1, dy: 0, heatLoss: 0, m: 0
-  }, {
-    x: 0, y: 0, dx: 0, dy: 1, heatLoss: 0, m: 0
-  }]
+  let steps: Step[] = [
+    {
+      x: 0,
+      y: 0,
+      dx: 1,
+      dy: 0,
+      heatLoss: 0,
+      m: 0,
+    },
+    {
+      x: 0,
+      y: 0,
+      dx: 0,
+      dy: 1,
+      heatLoss: 0,
+      m: 0,
+    },
+  ]
 
   const seenSteps = new Set<string>()
 
@@ -81,7 +98,12 @@ function search(
       }
 
       if (c.m >= minMoves && c.x === maxX && c.y === maxY) {
-        print('Found finish. Total steps checked:', stepsChecked, 'Unique steps:', seenSteps.size)
+        print(
+          'Found finish. Total steps checked:',
+          stepsChecked,
+          'Unique steps:',
+          seenSteps.size,
+        )
         return c.heatLoss
       }
 
@@ -96,9 +118,9 @@ function search(
           dx: c.dx,
           dy: c.dy,
           m: c.m + 1,
-          heatLoss: c.heatLoss + blocks[nextY][nextX]
+          heatLoss: c.heatLoss + blocks[nextY][nextX],
         })
-      } 
+      }
 
       for (const t of turns(c, minMoves)) {
         nextX = c.x + t.dx
@@ -110,7 +132,7 @@ function search(
             dx: t.dx,
             dy: t.dy,
             m: 1,
-            heatLoss: c.heatLoss + blocks[nextY][nextX]
+            heatLoss: c.heatLoss + blocks[nextY][nextX],
           })
         }
       }
