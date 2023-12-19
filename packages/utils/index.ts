@@ -16,7 +16,7 @@ export function matrixToString<T>(m: T[][]) {
   return m.map(r => r.join('')).join('\n')
 }
 
-export function timestamp () {
+export function timestamp() {
   const ms = Bun.nanoseconds() / 1_000_000
   if (ms < 1) return `${ms.toFixed(3)}ms`
   if (ms < 1_000) return `${ms.toFixed(1)}ms`
@@ -25,7 +25,7 @@ export function timestamp () {
   return `${s.toFixed(0)}s`
 }
 
-export function print (...data: any[]) {
+export function print(...data: unknown[]) {
   return console.log(`${timestamp()} $`, ...data)
 }
 
