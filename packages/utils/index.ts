@@ -11,6 +11,11 @@ export const sumWith = <T>(a: T[], fn: (v: T, i: number) => number) =>
   a.reduce((total, v, i) => total + fn(v, i), 0)
 export const uniq = <T>(a: T[]): T[] => a.filter((v, i) => a.indexOf(v) === i)
 
+const calcGcf = (a: number, b: number): number =>
+  b === 0 ? a : calcGcf(b, a % b)
+export const calcLcm = (...nums: number[]): number =>
+  nums.reduce((a, b) => (a * b) / calcGcf(a, b))
+
 export function transpose<T>(matrix: T[][]) {
   return matrix[0].map((_, c) => matrix.map((_, r) => matrix[r][c]))
 }

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { getInput } from '../utils'
+import { calcLcm, getInput } from '../utils'
 
 type Seq = ('L' | 'R')[]
 type Node = { L: string; R: string }
@@ -29,15 +29,11 @@ function calcSteps(start: string, seq: Seq, nodes: Nodes) {
   return stepsTaken
 }
 
-const calcGcf = (a: number, b: number): number =>
-  b === 0 ? a : calcGcf(b, a % b)
-const calcLcm = (a: number, b: number): number => (a * b) / calcGcf(a, b)
-
 function calcResults(results: ReturnType<typeof parseFile>): number {
   const [sequence, nodes] = results
   const startingNodes = Object.keys(nodes).filter(n => n.endsWith('A'))
   const minSteps = startingNodes.map(n => calcSteps(n, sequence, nodes))
-  return minSteps.reduce((lcm, steps) => calcLcm(lcm, steps))
+  return calcLcm(...minSteps)
 }
 
 describe('2023-08', () => {
