@@ -1,14 +1,39 @@
 export type Coord = { x: number; y: number }
+export type CoordZ = { x: number; y: number; z: number }
 export type Dir = 'n' | 's' | 'w' | 'e'
 
 export const coordToStr = (c: Coord) => `${c.y},${c.x}`
+
+export function mod(a: number, b: number) {
+  return ((a % b) + b) % b
+}
+
+export function range(len: number) {
+  return [...Array(len).keys()]
+}
+
+function hasIterator(value: unknown): boolean {
+  return typeof value === 'object' && value != null && Symbol.iterator in value
+}
+
+export function key(...items: unknown[]) {
+  return JSON.stringify(items)
+}
+
+export function isSubsetOf<T>(a: Set<T>, b: Set<T>) {
+  if (a.size > b.size) return false
+  for (const a0 of a) {
+    if (!b.has(a0)) return false
+  }
+  return true
+}
 
 export const sum = (n: number[]) => n.reduce((total, num) => total + num, 0)
 export const sumValues = <T extends number>(
   o: { [s: string]: T } | ArrayLike<T>,
 ) => sum(Object.values(o))
-export const sumWith = <T>(a: T[], fn: (v: T, i: number) => number) =>
-  a.reduce((total, v, i) => total + fn(v, i), 0)
+export const sumWith = <T>(a: T[], fn: (v: T, i: number, a: T[]) => number) =>
+  a.reduce((total, v, i) => total + fn(v, i, a), 0)
 export const uniq = <T>(a: T[]): T[] => a.filter((v, i) => a.indexOf(v) === i)
 
 const calcGcf = (a: number, b: number): number =>
@@ -21,7 +46,7 @@ export function transpose<T>(matrix: T[][]) {
 }
 
 export function matrixToString<T>(m: T[][]) {
-  return m.map(r => r.join('')).join('\n')
+  return m.map(r => r.join(' ')).join('\n')
 }
 
 export function timestamp(ns = Bun.nanoseconds()) {
@@ -59,6 +84,20 @@ export function createPrintEstimatedFinishTime() {
     print(`estimated finish time: ${estimatedFinishTime(left, prev, now)}`)
     prev = now
   }
+}
+
+type MapFn<U = string> = (i: string) => U
+
+export const parse = {
+  lines: <U = string>(i: string, m?: MapFn<U>, s = '\n') =>
+    parse.split(i, m, s),
+  chars: <U = string>(i: string, m?: MapFn<U>, s = '') =>
+    parse.lines(i, r => parse.split(r, m, s)),
+  nums: (i: string, s = ' ') => parse.split(i, x => Number(x), s),
+  split<U = string>(i: string, m?: MapFn<U>, s = ''): U[] {
+    const c = i.split(s)
+    return m ? c.map(m) : (c as U[])
+  },
 }
 
 /**

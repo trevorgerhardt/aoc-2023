@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { getInput, nums } from '../utils'
+import { getInput, parse } from '../utils'
 
 const exampleInput1 = `
 ???.### 1,1,3
@@ -11,11 +11,11 @@ const exampleInput1 = `
 `.trim()
 
 function parseInput(input: string) {
-  return input.split('\n').map(l => {
+  return parse.lines(input, l => {
     const [status, counts] = l.split(' ')
     return {
       status,
-      groups: nums(counts, ','),
+      groups: parse.nums(counts, ','),
     }
   })
 }

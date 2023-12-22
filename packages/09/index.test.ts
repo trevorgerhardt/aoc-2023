@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { getInput, nums } from '../utils'
+import { getInput, nums, parse } from '../utils'
 
 const exampleInput = `
 0 3 6 9 12 15
@@ -8,7 +8,7 @@ const exampleInput = `
 `.trim()
 
 function parseInput(input: string) {
-  return input.split('\n').map(l => nums(l))
+  return parse.lines(input, parse.nums)
 }
 
 function diff(seq: number[]) {
