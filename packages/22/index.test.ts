@@ -63,13 +63,10 @@ function genBrickSupports(bricks: Brick[]) {
       }
     }
 
-    for (let x = start.x; x <= end.x; x++) {
-      for (let y = start.y; y <= end.y; y++) {
-        for (let z = start.z; z <= end.z; z++) {
+    for (let x = start.x; x <= end.x; x++)
+      for (let y = start.y; y <= end.y; y++)
+        for (let z = start.z; z <= end.z; z++)
           brickSpace.set(key([x, y, z]), brick)
-        }
-      }
-    }
 
     return brick
   })
@@ -92,7 +89,6 @@ function chainReaction(bricks: Brick[]): number {
     if (brick.supports.size === 0) return 0
 
     const demolishedBricks = new Set<Brick>([brick])
-
     let supportBricks = brick.supports
     while (supportBricks.size > 0) {
       const nextSupportBricks = new Set<Brick>()
