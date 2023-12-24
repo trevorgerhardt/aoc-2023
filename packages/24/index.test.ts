@@ -1,13 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import {
-  Coord,
-  CoordZ,
-  coordToStr,
-  getInput,
-  key,
-  parse,
-  print
-} from '../utils'
+import { Coord, CoordZ, getInput, key, parse, print } from '../utils'
 
 const DAY = 24
 
@@ -158,7 +150,7 @@ describe(`2023-${DAY}`, () => {
     })
 
     test.skip('pt 2 should be', () => {
-      expect(hike(P(exampleInput1), false)).toBe(154)
+      // expect(hike(P(exampleInput1), false)).toBe(154)
     })
   })
 
