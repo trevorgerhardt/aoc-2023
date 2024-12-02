@@ -1,16 +1,17 @@
 {
-  "name": "aoc-2023",
-  "private": true,
-  "scripts": {
-    "fmt": "bun run --bun biome format . --write",
-    "lint": "bun run --bun biome check --apply ./",
-    "postinstall": "cp hooks/* .git/hooks/"
-  },
-  "dependencies": {
-    "@biomejs/biome": "^1",
-    "typescript": "^5.3.0"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+	"name": "aoc",
+	"private": true,
+	"scripts": {
+		"fmt": "bun run --bun biome format . --write",
+		"lint": "bun run --bun biome check --apply ./",
+		"postinstall": "cp hooks/* .git/hooks/"
+	},
+	"dependencies": {
+		"@biomejs/biome": "^1",
+		"typescript": "^5",
+		"@tsconfig/bun": "latest",
+		"@types/bun": "latest"
+	},
+	"workspaces": ["packages/*"],
+	"trustedDependencies": ["@biomejs/biome"]
 }
