@@ -109,7 +109,7 @@ export const nums = (s: string, splitWith = " ") =>
 	s.split(splitWith).map(Number)
 
 const baseUrl = "https://adventofcode.com"
-export async function getInput(day: number, year = 2023) {
+export async function getInput(day: number, year = 2024) {
 	const filename = `${year}-${day}.txt`
 	const filePath = `${import.meta.dir}/../../data/${filename}`
 	const file = Bun.file(filePath)
@@ -120,6 +120,7 @@ export async function getInput(day: number, year = 2023) {
 		if (!Cookie) throw new Error("process.env.COOKIE must be set")
 		const headers = new Headers({ Cookie })
 		const res = await fetch(`${baseUrl}/${year}/day/${day}/input`, { headers })
+		if (!res.ok) throw new Error(`Failed to fetch input: ${res.statusText}`)
 		const text = await res.text()
 		await Bun.write(file, text.trim())
 	}
