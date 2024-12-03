@@ -12,6 +12,10 @@ export function range(len: number) {
 	return [...Array(len).keys()]
 }
 
+export function removeAtIndex<T>(array: T[], index: number): T[] {
+	return array.slice(0, index).concat(array.slice(index + 1))
+}
+
 function hasIterator(value: unknown): boolean {
 	return typeof value === "object" && value != null && Symbol.iterator in value
 }

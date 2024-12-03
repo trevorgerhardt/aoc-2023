@@ -1,6 +1,7 @@
 {
 	"name": "aoc",
 	"private": true,
+	"packageManager": "bun@1.1.37",
 	"scripts": {
 		"fmt": "bun run --bun biome format . --write",
 		"lint": "bun run --bun biome check --apply ./",
