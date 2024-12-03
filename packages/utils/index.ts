@@ -12,8 +12,8 @@ export function range(len: number) {
 	return [...Array(len).keys()]
 }
 
-export function removeAtIndex<T>(array: T[], index: number): T[] {
-	return array.slice(0, index).concat(array.slice(index + 1))
+export function filterIndex<T>(array: T[], index: number): T[] {
+	return array.filter((_, i) => i !== index)
 }
 
 function hasIterator(value: unknown): boolean {

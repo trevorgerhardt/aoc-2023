@@ -1,4 +1,4 @@
-import { removeAtIndex } from "../utils"
+import { filterIndex } from "../utils"
 
 export function parseInput(input: string) {
 	const reports = input.trim().split("\n")
@@ -19,7 +19,7 @@ function isValid(report: number[]) {
 
 function isValidWithOneDrop(report: number[]) {
 	if (isValid(report)) return true
-	return report.some((_, i) => isValid(removeAtIndex(report, i)))
+	return report.some((_, i) => isValid(filterIndex(report, i)))
 }
 
 export function calculateValue(input: string) {
